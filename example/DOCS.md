@@ -2,9 +2,24 @@
 
 ## How to use
 
-This add-on provides Invidious, a privacy-friendly alternative YouTube frontend.
+This add-on is intended to provide Invidious, a privacy-friendly alternative YouTube frontend.
 
-When started it will print the configured message or "Hello world" in the log.
+**Note:** This add-on is currently in development. The current version is a template that demonstrates basic add-on functionality.
 
-It will also print "All done!" in `/share/example_addon_output.txt` to show
-simple example of the usage of `map` in addon config.
+When started, it will:
+- Print the configured message (or "Hello World..." by default) in the log
+- Write "All done!" to `/share/example_addon_output.txt` to demonstrate the usage of `map` in the addon config
+
+## Configuration
+
+Add-on configuration:
+
+```yaml
+message: "Your custom message here"
+```
+
+### Option: `message`
+
+The message that will be printed to the log when starting this add-on.
+
+**Note:** This is an optional field. If not specified, the default message "Hello World..." will be used.
