@@ -1,5 +1,13 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 1.3.3
+
+- Fix s6-applyuidgid permission errors by enabling init system
+
+## 1.3.2
+
+- Update Invidious version
+
 ## 1.3.1
 
 - Fix su-exec permission errors by replacing with s6-setuidgid
