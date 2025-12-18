@@ -27,10 +27,11 @@ profile invidious flags=(attach_disconnected,mediate_deleted) {
   # Access to options.json and other files within your addon
   /data/** rw,
 
-  # Start new profile for service
-  /usr/bin/my_program cx -> my_program,
+  # Start new profile for Invidious and PostgreSQL
+  /invidious/invidious cx -> invidious_service,
+  /usr/bin/postgres cx -> postgres_service,
 
-  profile my_program flags=(attach_disconnected,mediate_deleted) {
+  profile invidious_service flags=(attach_disconnected,mediate_deleted) {
     #include <abstractions/base>
 
     # Receive signals from S6-Overlay
@@ -42,16 +43,35 @@ profile invidious flags=(attach_disconnected,mediate_deleted) {
     # Access to mapped volumes specified in config.json
     /share/** rw,
 
-    # Access required for service functionality
-    # Note: List was built by doing the following:
-    # 1. Add what is obviously needed based on what is in the script
-    # 2. Add `complain` as a flag to this profile temporarily and run the addon
-    # 3. Review the audit log with `journalctl _TRANSPORT="audit" -g 'apparmor="ALLOWED"'` and add other access as needed
-    # Remember to remove the `complain` flag when you are done
-    /usr/bin/my_program r,
+    # Access required for Invidious functionality
+    /invidious/** r,
+    /invidious/invidious rix,
+    /invidious/config/** rw,
     /bin/bash rix,
-    /bin/echo ix,
     /etc/passwd r,
+    /etc/group r,
     /dev/tty rw,
+    
+    # Network access for web interface
+    network inet stream,
+    network inet6 stream,
+    network inet dgram,
+    network inet6 dgram,
+  }
+  
+  profile postgres_service flags=(attach_disconnected,mediate_deleted) {
+    #include <abstractions/base>
+    #include <abstractions/nameservice>
+    
+    # PostgreSQL access
+    /usr/bin/postgres rix,
+    /usr/lib/postgresql/** r,
+    /data/postgresql/** rwk,
+    /var/lib/postgresql/** rwk,
+    /tmp/** rwk,
+    
+    # Network access
+    network inet stream,
+    network inet6 stream,
   }
 }

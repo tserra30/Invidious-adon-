@@ -17,6 +17,8 @@ if [ ! -d "/data/postgresql" ]; then
     su-exec postgres pg_ctl -D /data/postgresql -o "-c listen_addresses='localhost'" -w start
     
     # Create Invidious database and user
+    # Note: Password is hardcoded since PostgreSQL only listens on localhost
+    # and is only accessible within the container. No external access is possible.
     su-exec postgres psql -c "CREATE USER invidious WITH PASSWORD 'invidious';"
     su-exec postgres psql -c "CREATE DATABASE invidious OWNER invidious;"
     
