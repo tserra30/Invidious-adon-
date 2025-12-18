@@ -5,6 +5,7 @@
 - Fix su-exec permission errors by replacing with s6-setuidgid
 - Remove ARM64 (aarch64) support due to upstream Invidious image limitations
 - Refactor Dockerfile to use multi-stage build pattern
+- Fix repository URLs across all configuration files
 
 ## 1.3.0
 
