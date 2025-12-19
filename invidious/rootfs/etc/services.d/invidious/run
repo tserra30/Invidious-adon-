@@ -93,7 +93,7 @@ for i in {1..30}; do
         bashio::log.info "PostgreSQL is ready"
         break
     fi
-    if [ $i -eq 30 ]; then
+    if [ "$i" -eq 30 ]; then
         bashio::log.error "PostgreSQL failed to start"
         exit 1
     fi
@@ -102,5 +102,8 @@ done
 
 # Run Invidious
 bashio::log.info "Starting Invidious on port 3000..."
-cd /invidious
+cd /invidious || {
+    bashio::log.error "Failed to change to Invidious directory"
+    exit 1
+}
 exec /invidious/invidious
