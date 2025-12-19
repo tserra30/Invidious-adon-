@@ -1,5 +1,9 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 1.5.0
+
+- Version bump for new release
+
 ## 1.4.0
 
 - Update Invidious to latest version
