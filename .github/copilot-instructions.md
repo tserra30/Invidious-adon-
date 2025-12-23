@@ -81,9 +81,12 @@ This repository contains a Home Assistant add-on for Invidious, a privacy-friend
 
 ## Security Considerations
 
-- PostgreSQL credentials are hardcoded (`invidious:invidious`) since the database only listens on localhost within the container
-- HMAC key is randomly generated and persisted for security
-- No external database access is possible outside the container
+- PostgreSQL runs with hardcoded credentials (`invidious:invidious`) - this is acceptable because:
+  - The database is configured to listen only on localhost within the container
+  - The container network is isolated with no external access to PostgreSQL
+  - This is a standard practice for containerized single-service databases
+- HMAC key is randomly generated on first run and persisted in `/data/hmac_key` for security
+- The container environment provides network isolation - only the Invidious service on port 3000 is exposed
 
 ## Common Tasks
 
