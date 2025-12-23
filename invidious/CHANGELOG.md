@@ -1,5 +1,12 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 1.5.4
+
+- Fix supervisor watchdog restart loop by keeping container alive on service failure
+- Add TCP healthcheck watchdog configuration for proper service health monitoring
+- Prevent container exit when Invidious service fails, eliminating rapid restart cycles
+- Replace exit code 125 approach with indefinite sleep to maintain container state
+
 ## 1.5.3
 
 - Fix s6-overlay error "can only run as pid 1" by removing conflicting init: true setting
