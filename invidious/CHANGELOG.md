@@ -1,5 +1,9 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 1.5.5
+
+- Update devcontainer name from generic template to "Invidious Add-on devcontainer"
+
 ## 1.5.4
 
 - Fix supervisor watchdog restart loop by keeping container alive on service failure
