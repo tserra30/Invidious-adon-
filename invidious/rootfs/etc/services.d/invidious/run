@@ -5,6 +5,9 @@
 # s6-overlay docs: https://github.com/just-containers/s6-overlay
 # ==============================================================================
 
+# Configuration constants
+readonly STARTUP_TIMEOUT=60
+
 bashio::log.info "Starting Invidious add-on..."
 
 # Initialize PostgreSQL if not already done
@@ -129,8 +132,9 @@ bashio::log.info "Host: 0.0.0.0"
 # Start a background process to confirm when Invidious is listening
 (
     # Wait for Invidious to start listening on port 3000
-    for i in {1..60}; do
-        if curl -s -o /dev/null -w '' --connect-timeout 1 http://localhost:3000 2>/dev/null; then
+    for i in $(seq 1 $STARTUP_TIMEOUT); do
+        HTTP_CODE=$(curl -s -o /dev/null -w '%{http_code}' --connect-timeout 1 http://localhost:3000 2>/dev/null)
+        if [ "$HTTP_CODE" -ge 200 ] && [ "$HTTP_CODE" -lt 500 ]; then
             bashio::log.info "========================================"
             bashio::log.info "Invidious add-on has started successfully!"
             bashio::log.info "Web interface available at port 3000"
@@ -139,7 +143,7 @@ bashio::log.info "Host: 0.0.0.0"
         fi
         sleep 1
     done
-    bashio::log.warning "Invidious may not have started properly - port 3000 not responding after 60 seconds"
+    bashio::log.warning "Invidious may not have started properly - port 3000 not responding after ${STARTUP_TIMEOUT} seconds"
 ) &
 
 exec /invidious/invidious
